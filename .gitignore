@@ -1,0 +1,33 @@
+# Gradle build output & cache
+.gradle/
+build/
+**/build/
+
+# Local SDK configuration
+local.properties
+
+# IDE & Editor files (Android Studio / IntelliJ)
+.idea/
+*.iml
+*.ipr
+*.iws
+
+# C++ / NDK Build outputs
+.externalNativeBuild/
+.cxx/
+
+# Operating System files
+.DS_Store
+Thumbs.db
+
+# Android build outputs & keys
+*.apk
+*.aab
+*.ap_
+*.keystore
+*.jks
+*.pepk
+
+# Profiling and Captures
+captures/
+*.log
