@@ -3,17 +3,16 @@
 
 #include <EGL/egl.h>
 #include <memory>
+#include <vector>
 
 #include "Model.h"
 #include "Shader.h"
+#include "GameEngine.h"
 
 struct android_app;
 
 class Renderer {
 public:
-    /*!
-     * @param pApp the android_app this Renderer belongs to, needed to configure GL
-     */
     inline Renderer(android_app *pApp) :
             app_(pApp),
             display_(EGL_NO_DISPLAY),
@@ -21,41 +20,20 @@ public:
             context_(EGL_NO_CONTEXT),
             width_(0),
             height_(0),
-            shaderNeedsNewProjectionMatrix_(true) {
+            shaderNeedsNewProjectionMatrix_(true),
+            lastFrameTime_(0.0) {
         initRenderer();
+        gameEngine_ = std::make_unique<GameEngine>(1080, 1920);
     }
 
     virtual ~Renderer();
 
-    /*!
-     * Handles input from the android_app.
-     *
-     * Note: this will clear the input queue
-     */
     void handleInput();
-
-    /*!
-     * Renders all the models in the renderer
-     */
     void render();
 
 private:
-    /*!
-     * Performs necessary OpenGL initialization. Customize this if you want to change your EGL
-     * context or application-wide settings.
-     */
     void initRenderer();
-
-    /*!
-     * @brief we have to check every frame to see if the framebuffer has changed in size. If it has,
-     * update the viewport accordingly
-     */
     void updateRenderArea();
-
-    /*!
-     * Creates the models for this sample. You'd likely load a scene configuration from a file or
-     * use some other setup logic in your full game.
-     */
     void createModels();
 
     android_app *app_;
@@ -66,9 +44,11 @@ private:
     EGLint height_;
 
     bool shaderNeedsNewProjectionMatrix_;
+    double lastFrameTime_;
 
     std::unique_ptr<Shader> shader_;
     std::vector<Model> models_;
+    std::unique_ptr<GameEngine> gameEngine_;
 };
 
 #endif //ANDROIDGLINVESTIGATIONS_RENDERER_H

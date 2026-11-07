@@ -13,7 +13,8 @@ add_library(geometrydefender SHARED
         Renderer.cpp
         Shader.cpp
         TextureAsset.cpp
-        Utility.cpp)
+        Utility.cpp
+        GameEngine.cpp)
 
 # Searches for a package provided by the game activity dependency
 find_package(game-activity REQUIRED CONFIG)
