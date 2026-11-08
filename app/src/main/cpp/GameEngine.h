@@ -4,6 +4,7 @@
 #include <vector>
 #include <string>
 #include <memory>
+#include "ObjectPool.h"
 
 enum ShapeType {
     SHAPE_NONE = 0,
@@ -12,8 +13,21 @@ enum ShapeType {
     SHAPE_TRIANGLE = 3
 };
 
-struct Vector2D {
-    float x, y;
+enum TerrainType {
+    TERRAIN_UPPER_GREEN = 1,
+    TERRAIN_LOWER_BROWN = 2
+};
+
+enum GamePhase {
+    PHASE_BUILDING = 1,
+    PHASE_COMBAT = 2
+};
+
+enum GameState {
+    STATE_MENU = 1,
+    STATE_PLAYING = 2,
+    STATE_SETTINGS = 3,
+    STATE_GAMEOVER = 4
 };
 
 struct PathNode {
@@ -27,20 +41,24 @@ struct EnemyDot {
     float health;
     float speed;
     int pathIndex;
-    float pathProgress; // 0.0 to 1.0 between current and next node
+    float pathProgress;
     bool active;
 };
 
 struct Tower {
     int gridX, gridY;
-    std::vector<ShapeType> shapes; // stacked shapes (up to 3)
-    int level; // 1 to 10
+    TerrainType terrainType;
+    std::vector<ShapeType> shapes;
+    int level;
     float range;
     float fireRate;
     float fireCooldown;
     float damage;
+    float hp;
+    float maxHp;
     float rotation;
     int targetEnemyId;
+    int totalCost;
 };
 
 struct Projectile {
@@ -60,19 +78,36 @@ public:
     void update(float deltaTime);
     void handleTouch(float x, float y, bool down);
 
-    // Getters for rendering
+    // Getters
     int getBaseHealth() const { return baseHealth_; }
     int getGold() const { return gold_; }
+    int getLives() const { return lives_; }
     int getWave() const { return wave_; }
+    int getScore() const { return score_; }
+    GameState getGameState() const { return gameState_; }
+    GamePhase getGamePhase() const { return gamePhase_; }
     bool isGameOver() const { return gameOver_; }
+
+    // Accessibility & Settings (Phase 6.2)
+    bool isMotionReductionEnabled() const { return motionReductionEnabled_; }
+    void toggleMotionReduction() { motionReductionEnabled_ = !motionReductionEnabled_; }
+    bool isColorblindModeEnabled() const { return colorblindModeEnabled_; }
+    void toggleColorblindMode() { colorblindModeEnabled_ = !colorblindModeEnabled_; }
 
     const std::vector<PathNode>& getPath() const { return path_; }
     const std::vector<EnemyDot>& getEnemies() const { return enemies_; }
     const std::vector<Tower>& getTowers() const { return towers_; }
     const std::vector<Projectile>& getProjectiles() const { return projectiles_; }
 
+    void setGameState(GameState state);
     void startNextWave();
+    void watchAdForLives();
     void resetGame();
+    void returnToMenu();
+
+    // Session Persistence (Phase 7.2)
+    std::string serializeGameState() const;
+    void deserializeGameState(const std::string& data);
 
 private:
     int screenWidth_;
@@ -80,9 +115,16 @@ private:
 
     int baseHealth_;
     int gold_;
+    int lives_;
     int wave_;
+    int score_;
+    int enemiesKilled_;
+    GameState gameState_;
+    GamePhase gamePhase_;
     bool gameOver_;
-    bool waveInProgress_;
+
+    bool motionReductionEnabled_;
+    bool colorblindModeEnabled_;
 
     std::vector<PathNode> path_;
     std::vector<EnemyDot> enemies_;
@@ -93,12 +135,14 @@ private:
     int enemiesToSpawn_;
     float spawnInterval_;
     int nextEnemyId_;
+    int enemiesLeakedThisWave_;
 
-    void generatePath();
+    void generateMapAndPath();
     void spawnEnemy();
     void updateTowers(float deltaTime);
     void updateProjectiles(float deltaTime);
     void updateEnemies(float deltaTime);
+    void endWave();
 };
 
 #endif // GEOMETRY_DEFENDER_GAME_ENGINE_H

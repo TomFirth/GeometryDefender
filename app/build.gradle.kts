@@ -4,13 +4,11 @@ plugins {
 
 android {
     namespace = "com.beardmachinegames.geometrydefender"
-    compileSdk {
-        version = release(37)
-    }
+    compileSdk = 37
 
     defaultConfig {
         applicationId = "com.beardmachinegames.geometrydefender"
-        minSdk = 37
+        minSdk = 34
         targetSdk = 37
         versionCode = 1
         versionName = "1.0"
@@ -20,6 +18,7 @@ android {
 
     buildTypes {
         release {
+            signingConfig = signingConfigs.getByName("debug")
             optimization {
                 enable = false
             }

@@ -1,0 +1,17 @@
+# Geometry Defender --- Google Play Store Listing
+
+## App Title
+Geometry Defender
+
+## Short Description (80 characters max)
+Defend against the dot swarm with shape towers and tactical combinations!
+
+## Full Description
+Welcome to Geometry Defender, an action-packed tactical mobile tower-defence game where geometric shapes are your ultimate defense systems!
+
+### Key Features:
+- **Unique Defensive Shapes**: Place and upgrade Squares (mid-range machine guns), Circles (AoE flame burst effects), and Triangles (long-range sniper units).
+- **Stacking & Hybrid Combinations**: Stack shapes together to create advanced hybrid units (up to Level 10 scaling for speed, range, and damage).
+- **Two-Tier Terrain Dynamics**: Build on Upper Green land (which erodes wave-by-wave if enemies leak) or Lower Brown Path (where enemies attack your units on tick).
+- **Lives & AdMob Refill**: Start with 5 lives, regenerate over time, or watch a quick ad to instantly top back up and stay in the action!
+- **Smooth 60 FPS Engine**: Built with native C++ and OpenGL ES for buttery-smooth mobile performance and session persistence.

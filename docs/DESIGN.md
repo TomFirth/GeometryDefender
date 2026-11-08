@@ -37,3 +37,18 @@ When a piece is place on the arena, the money is spent, if the piece is put back
 The user can only upgrade the level of a unit during a wave. 
 
 New units between waves, upgrade units during wave.
+
+The over time difficulty should be:
+
+more space opens up for enemies to travel down.
+More enemies.
+tougher enemies.
+
+---
+
+### Monetization & Lives System (Google AdMob)
+- **Lives System**:
+  - The user starts with **5 lives** on first load.
+  - Every game started consumes **1 life**.
+  - **Refill Mechanic**: Players receive 1 free life automatically every hour, OR they can choose to **watch a Google AdMob interstitial/rewarded ad** to immediately top back up to the maximum of 5 lives.
+- **Integration**: Google AdMob SDK integration for managing interstitial and rewarded ad units.

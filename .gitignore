@@ -2,6 +2,7 @@
 .gradle/
 build/
 **/build/
+builds/
 
 # Local SDK configuration
 local.properties
